@@ -13,20 +13,21 @@ connectDB();
 
 const app = express();
 
-// --- CORS Configuration ---
+// --- THIS IS THE FIX ---
 // This tells your backend to accept requests ONLY from your deployed frontend.
 app.use(cors({
   origin: 'https://blog-platform-frontend-neon.vercel.app' 
 }));
-// -------------------------
+// --------------------
 
 app.use(express.json());
 
-// ... (rest of your file is the same)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 app.get('/api', (req, res) => {
   res.send('Blog Platform API is running! 🚀');
 });
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
